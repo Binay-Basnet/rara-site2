@@ -1,29 +1,29 @@
 # this pipeline is used to login into my docker hub and then 
 
 
-# kind: pipeline
-# name: image build and push
+kind: pipeline
+name: image build and push
 
-# steps:
-# - name: test
-#   image: docker:dind
-#   volumes:
-#   - name: dockersock
-#     path: /var/run/docker.sock
-#   environment:
-#     username: binaybasnet
-#     password:
-#       from_secret: docker-hub-pwd
-#   commands:
-#     - docker ps 
-#     - docker compose -f docker-compose.dev.yml build
-#     - docker login -u $username -p $password
-#     - docker compose -f docker-compose.dev.yml push
+steps:
+- name: test
+  image: docker:dind
+  volumes:
+  - name: dockersock
+    path: /var/run/docker.sock
+  environment:
+    username: binaybasnet
+    password:
+      from_secret: docker-hub-pwd
+  commands:
+    - docker ps 
+    - docker compose -f docker-compose.dev.yml build
+    - docker login -u $username -p $password
+    - docker compose -f docker-compose.dev.yml push
 
-# volumes:
-# - name: dockersock
-#   host:
-#     path: /var/run/docker.sock
+volumes:
+- name: dockersock
+  host:
+    path: /var/run/docker.sock
 
 
 
@@ -32,7 +32,7 @@
 # Here I have pulthe image made in previous stage and then run it in the given vm 
 
 
-
+---
 kind: pipeline
 type: ssh
 name: Pull image and deploy on my vm
@@ -60,8 +60,10 @@ steps:
         - echo "o mere hamsafar"
         - ls
         - pwd
-        - docker compose --file docker-compose.dev.yml pull
-        - docker compose -f docker-compose.dev.yml up
+        # - docker compose -f docker-compose.dev.yml pull
+        # - docker compose -f docker-compose.dev.yml up
+        - docker pull binaybasnet/rara:v2
+        - docker run -d -p 8021:3000 binaybasnet/rara:v2
         
 
 trigger:
@@ -70,5 +72,5 @@ trigger:
   event:
     - push
 
-# depends_on:
-#   - image build and push
+depends_on:
+  - image build and push
