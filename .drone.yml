@@ -29,7 +29,7 @@ volumes:
 
 
 # this pipeline is used to ssh into a remote vm and then perform some commands into the machine to do some tasks
-# Here I have pulled the image made in previous stage and then run it in the given vm 
+# Here I have pulthe image made in previous stage and then run it in the given vm 
 
 
 ---
