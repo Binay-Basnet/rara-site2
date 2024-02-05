@@ -1,29 +1,29 @@
 # this pipeline is used to login into my docker hub and then 
 
 
-kind: pipeline
-name: image build and push
+# kind: pipeline
+# name: image build and push
 
-steps:
-- name: test
-  image: docker:dind
-  volumes:
-  - name: dockersock
-    path: /var/run/docker.sock
-  environment:
-    username: binaybasnet
-    password:
-      from_secret: docker-hub-pwd
-  commands:
-    - docker ps 
-    - docker compose -f docker-compose.dev.yml build
-    - docker login -u $username -p $password
-    - docker compose -f docker-compose.dev.yml push
+# steps:
+# - name: test
+#   image: docker:dind
+#   volumes:
+#   - name: dockersock
+#     path: /var/run/docker.sock
+#   environment:
+#     username: binaybasnet
+#     password:
+#       from_secret: docker-hub-pwd
+#   commands:
+#     - docker ps 
+#     - docker compose -f docker-compose.dev.yml build
+#     - docker login -u $username -p $password
+#     - docker compose -f docker-compose.dev.yml push
 
-volumes:
-- name: dockersock
-  host:
-    path: /var/run/docker.sock
+# volumes:
+# - name: dockersock
+#   host:
+#     path: /var/run/docker.sock
 
 
 
@@ -70,5 +70,5 @@ trigger:
   event:
     - push
 
-depends_on:
-  - image build and push
+# depends_on:
+#   - image build and push
