@@ -32,7 +32,6 @@
 # Here I have pulthe image made in previous stage and then run it in the given vm 
 
 
----
 
 kind: pipeline
 type: ssh
@@ -45,6 +44,7 @@ server:
     from_secret: host_user
   ssh_key:
     from_secret: aws-key-secret
+  
 
 steps:
   - name: deploy-to-remote-vm
