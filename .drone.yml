@@ -1,0 +1,73 @@
+# this pipeline is used to login into my docker hub and then 
+
+
+kind: pipeline
+name: image build and push
+
+steps:
+- name: test
+  image: docker:dind
+  volumes:
+  - name: dockersock
+    path: /var/run/docker.sock
+  environment:
+    username: binaybasnet
+    password:
+      from_secret: docker-hub-pwd
+  commands:
+    - docker ps 
+    - docker compose -f docker-compose.dev.yml build
+    - docker login -u $username -p $password
+    # - docker build -t binaybasnet/rara:v1 .
+    - docker push binaybasnet/rara:v1
+
+volumes:
+- name: dockersock
+  host:
+    path: /var/run/docker.sock
+
+
+
+
+# this pipeline is used to ssh into a remote vm and then perform some commands into the machine to do some tasks
+# Here I have pulled the image made in previous stage and then run it in the given vm 
+
+
+---
+
+kind: pipeline
+type: ssh
+name: Pull image and deploy on my vm
+
+server:
+  host:
+    from_secret: hostname
+  user:
+    from_secret: host_user
+  ssh_key:
+    from_secret: aws-key-secret
+
+steps:
+  - name: deploy-to-remote-vm
+    image: plugins/ssh
+    settings:
+      host: ${hostname}  # Reference the hostname from the secret
+      username: ${host_user}  # Reference the username from the secret
+      key:
+        from_secret: aws-key-secret  # Reference the SSH key secret
+      port: 22
+    commands:
+        - echo $HOSTNAME
+        - echo "o mere hamsafar"
+        - ls
+        - pwd
+        - docker pull binaybasnet/rara:v1
+        - docker run -d -p 8021:3000 binaybasnet/rara:v1
+        
+
+trigger:
+  branch:
+    - dev
+
+depends_on:
+  - image build and push

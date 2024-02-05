@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  server:
+    container_name: rarasite-dev-v1
+    image: binaybasnet:rara:v1
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    networks:
+      - rara-site-v1
+
+    ports:
+      - '8021:3000'
+
+networks:
+  rara-site-v1:
