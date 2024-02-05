@@ -3,7 +3,7 @@ version: '3.3'
 services:
   server:
     container_name: rarasite-dev-v1
-    image: binaybasnet:rara:v1
+    image: rara:v1
     restart: unless-stopped
     build:
       context: .
