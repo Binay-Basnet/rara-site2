@@ -18,8 +18,7 @@ steps:
     - docker ps 
     - docker compose -f docker-compose.dev.yml build
     - docker login -u $username -p $password
-    # - docker build -t binaybasnet/rara:v1 .
-    - docker push binaybasnet/rara:v1
+    - docker compose -f docker-compose.dev.yml push
 
 volumes:
 - name: dockersock
@@ -61,8 +60,8 @@ steps:
         - echo "o mere hamsafar"
         - ls
         - pwd
-        - docker pull binaybasnet/rara:v1
-        - docker run -d -p 8021:3000 binaybasnet/rara:v1
+        - docker compose -f docker-compose.dev.yml pull
+        - docker compose -f docker-compose.dev.yml up
         
 
 trigger:
