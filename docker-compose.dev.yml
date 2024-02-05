@@ -2,8 +2,8 @@ version: '3.3'
 
 services:
   server:
-    container_name: rarasite-dev-v1
-    image: binaybasnet/rara:v1
+    container_name: rarasite-dev-v2
+    image: binaybasnet/rara:v2
     restart: unless-stopped
     build:
       context: .
