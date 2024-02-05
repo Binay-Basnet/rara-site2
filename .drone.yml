@@ -60,7 +60,7 @@ steps:
         - echo "o mere hamsafar"
         - ls
         - pwd
-        - docker compose -f docker-compose.dev.yml pull
+        - docker compose --file docker-compose.dev.yml pull
         - docker compose -f docker-compose.dev.yml up
         
 
