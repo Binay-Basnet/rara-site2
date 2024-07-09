@@ -26,6 +26,13 @@ volumes:
     path: /var/run/docker.sock
 
 
+trigger:
+  branch:
+    - main
+  event:
+    - push
+
+
 
 
 # this pipeline is used to ssh into a remote vm and then perform some commands into the machine to do some tasks
