@@ -19,6 +19,7 @@ steps:
     - docker compose -f docker-compose.dev.yml build
     - docker login -u $username -p $password
     - docker compose -f docker-compose.dev.yml push
+    - ls
 
 volumes:
 - name: dockersock
